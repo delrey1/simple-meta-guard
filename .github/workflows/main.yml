@@ -20,6 +20,6 @@ jobs:
       - run: yarn
       - run: yarn build SimpleMeta
 #      - run: yarn version --new-version "${GITHUB_REF:11}" --no-git-tag-version
-      - run: cd dist/simple-meta && yarn publish
+      - run: cd dist/meta && yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
