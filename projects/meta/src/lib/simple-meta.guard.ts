@@ -5,6 +5,8 @@ import {Meta, MetaDefinition, Title} from "@angular/platform-browser";
 
 export interface SeoConfig {
   title: string;
+  description?: string;
+  keywords?: string[];
   body: MetaDefinition[];
 }
 
@@ -24,19 +26,29 @@ export class SimpleMetaGuard implements CanActivate, CanActivateChild {
 
     const metaData: SeoConfig = route.data['meta'];
 
-    this.metaService.addTags(metaData.body);
-
-    this.titleService.setTitle(metaData.title);
+    this.setMetaData(metaData);
     return true;
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const metaData: SeoConfig = childRoute.data['meta'];
-
-    this.metaService.addTags(metaData.body);
-
-    this.titleService.setTitle(metaData.title);
+    this.setMetaData(metaData);
     return true;
+  }
+
+  private setMetaData(metaData: SeoConfig) {
+    this.metaService.addTags(metaData.body);
+    this.titleService.setTitle(metaData.title);
+
+    this.checkIfDescriptionIsOverridden(metaData.description)
+  }
+
+  private checkIfDescriptionIsOverridden(description: string | undefined) {
+    if (description) {
+      this.metaService.addTag(
+        {name: "description", content: description}
+      )
+    }
   }
 
 }
