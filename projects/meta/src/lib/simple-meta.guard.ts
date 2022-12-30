@@ -7,7 +7,7 @@ export interface SeoConfig {
   title: string;
   description?: string;
   keywords?: string[];
-  body: MetaDefinition[];
+  body?: MetaDefinition[];
 }
 
 @Injectable({
@@ -37,7 +37,9 @@ export class SimpleMetaGuard implements CanActivate, CanActivateChild {
   }
 
   private setMetaData(metaData: SeoConfig) {
-    this.metaService.addTags(metaData.body);
+
+    if (metaData.body) this.metaService.addTags(metaData.body);
+
     this.titleService.setTitle(metaData.title);
 
     this.checkIfDescriptionIsOverridden(metaData.description)
