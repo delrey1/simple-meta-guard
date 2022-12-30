@@ -24,33 +24,49 @@ export class SimpleMetaGuard implements CanActivate, CanActivateChild {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    const metaData: SeoConfig = route.data['meta'];
-
-    this.setMetaData(metaData);
+    this.setMetaData(route);
     return true;
   }
 
-  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const metaData: SeoConfig = childRoute.data['meta'];
-    this.setMetaData(metaData);
-    return true;
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return this.canActivate(childRoute, state);
   }
 
-  private setMetaData(metaData: SeoConfig) {
+  private setMetaData(route: ActivatedRouteSnapshot) {
 
-    if (metaData.body) this.metaService.addTags(metaData.body);
+    const metaData: SeoConfig = route.data ? route.data.meta : undefined;
+    if (!metaData) {
+      return;
+    }
+
+    if (metaData.body) {
+      this.metaService.addTags(metaData.body);
+    }
 
     this.titleService.setTitle(metaData.title);
 
-    this.checkIfDescriptionIsOverridden(metaData.description)
+    this.checkIfKeywordsAreOverridden(metaData.keywords);
+
+    this.checkIfDescriptionIsOverridden(metaData.description);
   }
 
   private checkIfDescriptionIsOverridden(description: string | undefined) {
     if (description) {
       this.metaService.addTag(
-        {name: "description", content: description}
-      )
+        {name: 'description', content: description}
+      );
     }
   }
 
+  private checkIfKeywordsAreOverridden(arr: string[]) {
+    if (arr && arr.length > 0) {
+      const keywords = arr.join(',');
+      this.metaService.addTag({
+        name: 'keywords', content: keywords
+      });
+    }
+  }
 }
