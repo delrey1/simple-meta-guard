@@ -1,9 +1,9 @@
 name: Publish Package to npmjs
 on:
   push:
-    branches: ["Angular11" ]
+    branches: ["Angular13" ]
     # Publish semver tags as releases.
-    tags: [ 'v11.*.*' ]
+    tags: [ 'v13.*.*' ]
 
 jobs:
   build:
