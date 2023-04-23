@@ -37,7 +37,7 @@ export class SimpleMetaGuard implements CanActivate, CanActivateChild {
 
   private setMetaData(route: ActivatedRouteSnapshot) {
 
-    const metaData: SeoConfig = route.data ? route.data.meta : undefined;
+    const metaData: SeoConfig = route.data ? route.data['meta'] : undefined;
     if (!metaData) {
       return;
     }
@@ -61,7 +61,7 @@ export class SimpleMetaGuard implements CanActivate, CanActivateChild {
     }
   }
 
-  private checkIfKeywordsAreOverridden(arr: string[]) {
+  private checkIfKeywordsAreOverridden(arr: string[] | undefined) {
     if (arr && arr.length > 0) {
       const keywords = arr.join(',');
       this.metaService.addTag({
