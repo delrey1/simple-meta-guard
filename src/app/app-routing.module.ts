@@ -1,8 +1,7 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AppComponent} from "./app.component";
-import {SeoConfig, SimpleMetaGuard} from "SimpleMeta";
-import {TestComponent} from "./test/test.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { TestComponent } from './test/test.component';
+import { SeoConfig, SimpleMetaGuard } from '../../projects/meta/src/lib/simple-meta.guard';
 
 export const DEFAULT_SEO_CONFIG: SeoConfig = {
   title: 'testa',
@@ -27,7 +26,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
     initialNavigation: "enabledBlocking",
-    // relativeLinkResolution: 'legacy'
 })],
   exports: [RouterModule]
 })
