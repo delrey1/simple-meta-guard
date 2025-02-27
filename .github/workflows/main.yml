@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:latest
+    container: mcr.microsoft.com/playwright:v1.50.1-jammy
     steps:
       - uses: actions/checkout@v3
       # Setup .npmrc file to publish to npm
