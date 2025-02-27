@@ -4,6 +4,7 @@ on:
     branches: [ "Angular18" ]
     # Publish semver tags as releases.
     tags: [ 'v18.*.*' ]
+  workflow_dispatch:
 
 jobs:
   test:
